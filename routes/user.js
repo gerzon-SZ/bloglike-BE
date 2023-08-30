@@ -19,7 +19,7 @@ const {
     adminValidator
 } = require('../middlewares/utils/validators')
 const protectedRoute = require('../middlewares/authenticate')
-//root
+
 
 router.route('/')
     .get(reqLogger, adminValidator, getUsers)
@@ -29,7 +29,7 @@ router.route('/')
 router.route('/login')
     .post(reqLogger, login)
 
-router.route('/forgotpassword')
+router.route('/forgotpassword') 
     .post(reqLogger, forgotPassword)
 
 router.route('/resetpassword')

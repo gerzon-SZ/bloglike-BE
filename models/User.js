@@ -20,14 +20,14 @@ const UserSchema = new Schema ({
         type: String,
         required: [true, 'Please add a last name']
     },
-    gender: {
-        type: String,
-        required: [true, 'Please add a gender'],
-        enum: [
-            'Male',
-            'Female'
-        ]
-    },
+    // gender: {
+    //     type: String,
+    //     required: [true, 'Please add a gender'],
+    //     enum: [
+    //         'Male',
+    //         'Female'
+    //     ]
+    // },
     email: {
         type: String,
         required: [true, 'Please add an email'],
@@ -42,7 +42,6 @@ const UserSchema = new Schema ({
         validate: (password) => {
             return validator.isStrongPassword(password);
         }
-
     },
     resetPasswordToken: {
         type: String

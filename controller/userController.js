@@ -29,19 +29,12 @@ const getUsers = async (req, res, next) => {
     catch (err) {
         throw new Error(`Error retrieving users: ${err.message}`);
     }
-
-
 }
 
 const createUser = async (req, res, next) => {
     try {
         const user = await User.create(req.body);
-
         sendTokenResponse(user, 201, res)
-/*         res
-        .status(201)
-        .setHeader('Content-Type', 'application/json')
-        .json(user) */
     }
     catch (err) {
         throw new Error(`Error retrieving users: ${err.message}`);
@@ -63,7 +56,6 @@ const deleteUsers = async (req, res, next) => {
     
 }
 
-//! for SINGLE '/categoryId' endpoint
 
 const getUser = async (req, res, next) => {
     try {
@@ -108,7 +100,7 @@ const deleteUser = async (req, res, next) => {
     }
 
 }
-// for '/login' endpoint
+
 const login = async (req, res, next) => {
     const {email, password} = req.body;
 
@@ -116,7 +108,7 @@ const login = async (req, res, next) => {
     
     // find a user by email and return with password
     const user = await User.findOne({ email }).select('+password');
-
+    console.log(user);
     // check to see if a user is returned
     if (!user) throw new Error('Invalid credentials')
 

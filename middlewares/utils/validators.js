@@ -13,29 +13,18 @@ const categoryValidator = (req, res, next) => {
 
     }
 }
-
-
 const userValidator = (req, res, next) => {
     if (req.body) {
-        if (
-
-            !req.body.userName  ||
-            !req.body.gender ||
-            !req.body.firstName ||
-            !req.body.lastName ||
-            !req.body.email ||
-            !req.body.password 
-        )
-        {
+        const { userName, firstName, lastName, email, password } = req.body
+        const allGood = [userName, firstName, lastName, email, password].every(Boolean)
+        if (!allGood){ 
             res
             .status(400)
             .setHeader('Content-Type', 'application/json')
-            .json({ success: false, msg: 'Missing required fields!'})        
-        }
-            else 
-            {
-                next();
-            }
+            .json({ success: false, msg: 'Missing required fields!'})
+         } else {
+            next();
+         }
 
     }
 }

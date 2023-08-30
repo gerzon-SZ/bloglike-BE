@@ -12,26 +12,26 @@ require('dotenv').config();
 
 connectDB();
 
-const app = express(); 
+const app = express()
 
-app.use(cookieParser());
+app.use(cookieParser())
 
-app.use(mongoSanitize());
+app.use(mongoSanitize())
 
-app.use(cors());
+app.use(cors())
 
 app.use(bodyParser.json())
 
-app.use(logger);
+app.use(logger)
 
-app.use('/api/v1/post', post);
-app.use('/api/v1/user', user);
+app.use('/api/v1/post', post)
+app.use('/api/v1/user', user)
 
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5001
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server is listening on PORT: ${PORT}`)
 })
 
