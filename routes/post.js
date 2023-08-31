@@ -9,10 +9,10 @@ const {
     updatePost,
     deletePost } = require('../controller/postController')
 router.route('/')
-    .get(reqLogger,protectedRoute,  getPosts)
-    .post(reqLogger, protectedRoute, createPost)
+    .get(reqLogger,  getPosts)
+    .post(reqLogger, createPost)
 
-router.route('/:id')
+router.route('/:postId')
     .get(reqLogger, protectedRoute, getPost)
     .put(reqLogger, protectedRoute, updatePost)
     .delete(reqLogger, protectedRoute, deletePost)

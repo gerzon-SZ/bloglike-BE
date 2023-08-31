@@ -5,96 +5,27 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
-const UserSchema = new Schema ({
-    userName: {
+const PostSchema = new Schema ({
+    id: {
         type: String,
-        unique: true,
-        required: [true, 'Please add a user name!'],
-        maxLength: [10, 'User name can not be more than 10 characters']
+        required: [true, 'Please add a id!'],
+        // maxLength: [10, 'id can not be more than 10 characters']
     },
-    firstName: {
+    title: {
         type: String,
-        required: [true, 'Please add a first name']
+        required: [true, 'Please add a title']
     },
-    lastName: {
+    body: {
         type: String,
-        required: [true, 'Please add a last name']
+        required: [true, 'Please add a body']
     },
-    gender: {
+    userId: {
         type: String,
-        required: [true, 'Please add a gender'],
-        enum: [
-            'Male',
-            'Female'
-        ]
-    },
-    email: {
-        type: String,
-        required: [true, 'Please add an email'],
-        unique: true,
-        validate: (email) => {
-            return validator.isEmail(email);
-        }
-    },
-    password: {
-        type: String,
-        required: [true, 'Please add a password'],
-        validate: (password) => {
-            return validator.isStrongPassword(password);
-        }
-
-    },
-    resetPasswordToken: {
-        type: String
-    },
-    resetPasswordExpire: {
-        type: Date
-    },
-    admin: {
-        type: Boolean,
-        default: false
+        required: [true, 'Please add an user id'],
     }
-
 }, {
     timestamps: true
 })
 
-//bcrypt = prehook to hash our password before saving to the database!
-UserSchema.pre('save', async function(next) {
-    //first check if password is not modified
-    if (!this.isModified('password')) // when you login the password is not change
-    next();
 
-    //when it make hash it complicated the data, shorter the number the lower complexity
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt) //reset your password, create new password, update current password
-}) 
-
-// generate our jwt token when user logs in or create new account!
-UserSchema.methods.getSignedJwtToken = function() { //_id is ID in mongoDB
-    return jwt.sign({ id: this._id}, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRE
-    })
-}
-
-// method to match password for login
-UserSchema.methods.matchPassword = async function(enteredPassword) {
-    return await bcrypt.compare(enteredPassword, this.password)
-}
-
-// method for reseting passwordToken
-UserSchema.methods.getResetPasswordToken = function () {
-    // create hex token with the size of 20
-    const resetToken = crypto.randomBytes(20).toString('hex')
-    
-    // create hash to increase security for the rest token and tell it that it came from hexd format
-    this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-
-    this.resetPasswordExpire = Date.now() + 10 * 60 * 1000 // set expiration on reset password for 1 hour 
-
-    return resetToken;
-
-}
-
-
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('Post', PostSchema);

@@ -3,22 +3,25 @@ const crypto = require('crypto');
 //! for TWO OR MORE '/ControllerId' endpoint
 
 const getUsers = async (req, res, next) => {
-    const filter = {}; //filters to return only selected fields e.g. usernams, gender
-    const options = {}; //sorting, pagination e.g. limit 20 data to comeback or sorting by asc of userName
-    if(Object.keys(req.query).length) {
-        const { 
-            userName, //randon username
-            gender, // male
-            limit, //200
-            sortByFirstName // 1 or -1
-        } = req.query
-        if (userName) filter.userName = true
-        if (gender) filter.gender = true
-        if (limit) options.limit = limit;
-        if (sortByFirstName) options.sort = {
-            firstName: sortByFirstName === 'asc' ? 1 : -1
+
+        const filter = {}; //filters to return only selected fields e.g. usernams, gender
+        const options = {}; //sorting, pagination e.g. limit 20 data to comeback or sorting by asc of userName
+        if(Object.keys(req.query).length) {
+            const { 
+                username, //randon username
+                gender, // male
+                limit, //200
+                sortByFirstName // 1 or -1
+            } = req.query
+            filter.admin=false;
+            if (username) filter.username = true
+            if (gender) filter.gender = true
+            if (limit) options.limit = limit;
+            if (sortByFirstName) options.sort = {
+                firstName: sortByFirstName === 'asc' ? 1 : -1
+            }
         }
-    }
+   
     try {
         const users = await User.find({}, filter, options);
         res
@@ -114,7 +117,9 @@ const login = async (req, res, next) => {
 
     // check if password matches - if password not match then it will be error
     const isMatch = await user.matchPassword(password);
-    if (!isMatch) throw new Error ('Invalid credentials');
+    if (!isMatch) return res.
+                    status(400).
+                    json({ success: false, msg: 'Invalid credentials'});
 
     sendTokenResponse(user, 200, res);
 
@@ -199,7 +204,7 @@ const sendTokenResponse = (user, statusCode, res) => {
     res
     .status(statusCode)
     .cookie('token', token, options)
-    .json({ success: true, token})
+    .json({ success: true, token, firstname: user.firstName, lastname:user.lastName, userId:user.id})
 }
 
 module.exports = {

@@ -6,7 +6,7 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 
 const UserSchema = new Schema ({
-    userName: {
+    username: {
         type: String,
         unique: true,
         required: [true, 'Please add a user name!'],
@@ -20,14 +20,14 @@ const UserSchema = new Schema ({
         type: String,
         required: [true, 'Please add a last name']
     },
-    // gender: {
-    //     type: String,
-    //     required: [true, 'Please add a gender'],
-    //     enum: [
-    //         'Male',
-    //         'Female'
-    //     ]
-    // },
+    gender: {
+        type: String,
+        required: [false, 'Please add a gender'],
+        enum: [
+            'Male',
+            'Female'
+        ]
+    },
     email: {
         type: String,
         required: [true, 'Please add an email'],

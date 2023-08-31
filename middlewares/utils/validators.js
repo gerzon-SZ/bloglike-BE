@@ -15,8 +15,8 @@ const categoryValidator = (req, res, next) => {
 }
 const userValidator = (req, res, next) => {
     if (req.body) {
-        const { userName, firstName, lastName, email, password } = req.body
-        const allGood = [userName, firstName, lastName, email, password].every(Boolean)
+        const { username, firstName, lastName, email, password } = req.body
+        const allGood = [username, firstName, lastName, email, password].every(Boolean)
         if (!allGood){ 
             res
             .status(400)
