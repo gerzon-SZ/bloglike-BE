@@ -22,9 +22,9 @@ const protectedRoute = require('../middlewares/authenticate')
 
 
 router.route('/')
-    .get(reqLogger, adminValidator, getUsers)
-    .post(reqLogger, userValidator, createUser)
-    .delete(reqLogger, protectedRoute, deleteUsers)
+    .get(reqLogger, getUsers)
+    .post(reqLogger, createUser)
+    .delete(reqLogger, deleteUsers)
 
 router.route('/login')
     .post(reqLogger, login)
@@ -36,14 +36,14 @@ router.route('/resetpassword')
     .put(reqLogger, resetPassword)
 
 router.route('/updatepassword')
-    .put(reqLogger, protectedRoute, updatePassword)
+    .put(reqLogger, updatePassword)
 
 router.route('/logout')
     .get(reqLogger, protectedRoute, logout)
 
-    router.route('/:userId')
+router.route('/:userId')
     .get(reqLogger, getUser)
-    .put(reqLogger, protectedRoute, updateUser)
-    .delete(reqLogger, protectedRoute, deleteUser)
+    .put(reqLogger, updateUser)
+    .delete(reqLogger, deleteUser)
 
     module.exports = router;
